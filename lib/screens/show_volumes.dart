@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:light_novel/services/HttpHandler.dart';
-
 
 
 // Widgets
 import 'package:light_novel/widgets/ListVolumes.dart';
 
 
+// Services
+import 'package:light_novel/services/HttpHandler.dart';
+
+
+// Models
+import 'package:light_novel/models/LightNovel.dart';
+import 'package:light_novel/models/Volume.dart';
+
 
 class ShowVolumes extends StatefulWidget 
 {
-	final int id;
+	final LightNovel lightNovel;
 
-	ShowVolumes({ this.id });
+	ShowVolumes({ this.lightNovel });
 
 
 	@override
@@ -23,30 +29,30 @@ class ShowVolumes extends StatefulWidget
 class _ShowVolumesState extends State<ShowVolumes> 
 {
 
-	List<LightNovel> lightNovels;
-
+	List<Volume> volumes;
 
 	getVolumes() async
 	{
-		lightNovels = new List();
+		volumes = new List();
 
-		var response = await HttpHandler().getJson('/light-novel/${widget.id}');
+		var response = await HttpHandler().getJson('/light-novel/${widget.lightNovel.id}');
 
-		var datos = (response['data'] as List).map((e) => e).toList();
+		response['data'].map((m) => print(m));
 
-		for (var i = 0; i < datos.length; i++) {
+		// var datos = (response['data'] as List<dynamic>).map((e) => e).toList();
 
-			LightNovel lightTemp = LightNovel(
-				name: datos[i]['name'],
-				author: datos[i]['author'],
-				description: datos[i]['description'],
-				thumbnail: datos[i]['thumbnail'],
-				views: datos[i]['views'],
-				id: datos[i]['id'],
-			);
+		// for (var i = 0; i < datos.length; i++) {
 
-			lightNovels.add(lightTemp);
-		}
+		// 	Volume volumeTemp = Volume(
+		// 		name: datos[i]['name'],
+		// 		prev: datos[i]['prev'],
+		// 		next: datos[i]['next'],
+		// 		thumbnail: datos[i]['thumbnail'],
+		// 		chapters: datos[i]['chapters']
+		// 	);
+
+		// 	volumes.add(volumeTemp);
+		// }
 
 		return true;
 	}

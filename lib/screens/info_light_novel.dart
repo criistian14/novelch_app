@@ -6,14 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:light_novel/screens/show_volumes.dart';
 
 
+// Models
+import 'package:light_novel/models/LightNovel.dart';
+
+
 
 class InfoLightNovel extends StatefulWidget 
 {
-	final int id;
-	final String name, thumbnail, author, description;
+	final LightNovel lightNovel;
 
 
-	InfoLightNovel({ this.name, this.description, this.thumbnail, this.id, this.author });
+	InfoLightNovel({ this.lightNovel });
 
 
 	@override
@@ -47,7 +50,7 @@ class _InfoLightNovelState extends State<InfoLightNovel>
 	{
 		Navigator.of(context).push(
 			MaterialPageRoute(
-				builder: (BuildContext context) => ShowVolumes(id: widget.id)
+				builder: (BuildContext context) => ShowVolumes(lightNovel: widget.lightNovel,)
 			)
 		);
 	}
@@ -118,7 +121,7 @@ class _InfoLightNovelState extends State<InfoLightNovel>
 												placeholder: 'lib/assets/images/ounq1mw5kdxy.gif',
 												fadeInDuration: Duration(seconds: 1),
 												fadeInCurve: Curves.easeIn,
-												image: widget.thumbnail,
+												image: widget.lightNovel.thumbnail,
 											),
 										),
 										
@@ -130,7 +133,7 @@ class _InfoLightNovelState extends State<InfoLightNovel>
 
 													SizedBox(
 														width: MediaQuery.of(context).size.width / 3.2,
-														child: Text(widget.name, style: TextStyle(
+														child: Text(widget.lightNovel.name, style: TextStyle(
 															fontWeight: FontWeight.bold,
 															fontSize: 18,
 														))
@@ -140,7 +143,7 @@ class _InfoLightNovelState extends State<InfoLightNovel>
 
 													SizedBox(
 														width: MediaQuery.of(context).size.width / 3.2,
-														child: Text('By ${widget.author}', style: TextStyle(
+														child: Text('By ${widget.lightNovel.author}', style: TextStyle(
 															color: Colors.blueGrey[300],
 															fontSize: 13,
 														))
@@ -187,7 +190,7 @@ class _InfoLightNovelState extends State<InfoLightNovel>
 							// About light novel 
 							SizedBox(
 								width: MediaQuery.of(context).size.width,
-								child: Text('About ${widget.name}', style: TextStyle(
+								child: Text('About ${widget.lightNovel.name}', style: TextStyle(
 									color: Colors.blueGrey[700],
 									fontWeight: FontWeight.bold,
 									fontSize: 19,
@@ -199,7 +202,7 @@ class _InfoLightNovelState extends State<InfoLightNovel>
 
 							SizedBox(
 								width: MediaQuery.of(context).size.width,
-								child: Text('${widget.description}', style: TextStyle(
+								child: Text('${widget.lightNovel.description}', style: TextStyle(
 									color: Colors.blueGrey[300],
 									height: 1.4,
 									fontSize: 15,

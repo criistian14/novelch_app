@@ -13,6 +13,7 @@ import 'package:light_novel/services/HttpHandler.dart';
 import 'package:light_novel/models/LightNovel.dart';
 
 
+
 class Home extends StatefulWidget 
 {
 	final String tag = '/home';
@@ -42,7 +43,8 @@ class _HomeState extends State<Home>
 				description: datos[i]['description'],
 				thumbnail: datos[i]['thumbnail'],
 				views: datos[i]['views'],
-				id: datos[i]['id'],
+				volumes: datos[i]['volumes'],
+				id: datos[i]['_id'],
 			);
 
 			lightNovels.add(lightTemp);

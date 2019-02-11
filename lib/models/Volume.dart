@@ -1,8 +1,17 @@
-class LightNovel {
-	int id, views;
-	String name, author, thumbnail, description;
-	List<dynamic> volumes;
+class Volume {
+	String name, thumbnail, prev, next;
+	List<dynamic> chapters;
 
-	LightNovel({ this.name, this.author, this.description, this.thumbnail, this.views, this.id });
+	Volume({ this.name, this.prev, this.thumbnail, this.next, this.chapters });
 
+	factory Volume.fromJson(Map<String, dynamic> json)
+	{
+		return Volume(
+			name: json['name'] as String,
+			prev: json['prev'] as String,
+			thumbnail: json['thumbnail'] as String,
+			next: json['next'] as String,
+			chapters: json['chapters'] as List<dynamic>
+		);
+	}
 }

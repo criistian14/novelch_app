@@ -2,15 +2,22 @@ import 'package:flutter/material.dart';
 
 
 // Widgets
-import 'package:light_novel/widgets/Volume.dart';
+import 'package:light_novel/widgets/VolumeItem.dart';
+
 
 
 
 class ListVolumes extends StatefulWidget 
 {
+	final List list;
+
+	ListVolumes({ this.list });
+
+
 	@override
 	_ListVolumesState createState() => _ListVolumesState();
 }
+
 
 
 class _ListVolumesState extends State<ListVolumes> 
@@ -29,7 +36,9 @@ class _ListVolumesState extends State<ListVolumes>
 						mainAxisSpacing: 15,
 						crossAxisSpacing: 13
 					),
-					itemBuilder: (BuildContext context, int index) => Volume(),
+					itemBuilder: (BuildContext context, int index) => VolumeItem(
+						volume: widget.list[index],
+					),
 				);
 			}
 		);
