@@ -18,16 +18,27 @@ class VolumeItem extends StatefulWidget
 
 class _VolumeItemState extends State<VolumeItem> 
 {
+	void _showChapters()
+	{
+		
+	}
+
+
 	@override
 	Widget build(BuildContext context) 
 	{
-		return ClipRRect(
-			borderRadius: BorderRadius.all(Radius.circular(10)),
-			child: Image.network(
-				widget.volume.thumbnail,
-				fit: BoxFit.cover,
-				alignment: Alignment.center,
-			),
+		return GestureDetector(
+			onTap: _showChapters,
+			child: ClipRRect(
+				borderRadius: BorderRadius.all(Radius.circular(10)),
+				child: FadeInImage.assetNetwork(
+					placeholder: 'lib/assets/images/ounq1mw5kdxy.gif',
+					fadeInCurve: Curves.easeIn,
+					fadeInDuration: Duration(seconds: 1),
+					image: widget.volume.thumbnail, 
+					fit: BoxFit.cover,
+				)
+			)
 		);
 	}
 }

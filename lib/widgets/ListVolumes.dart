@@ -29,7 +29,7 @@ class _ListVolumesState extends State<ListVolumes>
 			builder: (BuildContext context, Orientation orientation) 
 			{
 				return GridView.builder(
-					itemCount: 7,
+					itemCount: widget.list.length,
 					gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
 						crossAxisCount: (orientation == Orientation.portrait ? 2 : 3),
 						childAspectRatio: 4 / 5.5,

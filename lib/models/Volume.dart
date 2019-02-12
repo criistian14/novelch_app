@@ -6,12 +6,16 @@ class Volume {
 
 	factory Volume.fromJson(Map<String, dynamic> json)
 	{
+		var chaptersFromJson = json['chapters'];
+
+		List<String> chaptersList = chaptersFromJson.cast<String>();
+
 		return Volume(
 			name: json['name'] as String,
 			prev: json['prev'] as String,
 			thumbnail: json['thumbnail'] as String,
 			next: json['next'] as String,
-			chapters: json['chapters'] as List<dynamic>
+			chapters: chaptersList
 		);
 	}
 }

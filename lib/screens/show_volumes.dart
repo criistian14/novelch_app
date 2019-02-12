@@ -37,22 +37,13 @@ class _ShowVolumesState extends State<ShowVolumes>
 
 		var response = await HttpHandler().getJson('/light-novel/${widget.lightNovel.id}');
 
-		response['data'].map((m) => print(m));
 
-		// var datos = (response['data'] as List<dynamic>).map((e) => e).toList();
+		for (var i = 0; i < response['data']['volumes'].length; i++) {
 
-		// for (var i = 0; i < datos.length; i++) {
+			Volume volumeTemp = Volume.fromJson(response['data']['volumes'][i]);
 
-		// 	Volume volumeTemp = Volume(
-		// 		name: datos[i]['name'],
-		// 		prev: datos[i]['prev'],
-		// 		next: datos[i]['next'],
-		// 		thumbnail: datos[i]['thumbnail'],
-		// 		chapters: datos[i]['chapters']
-		// 	);
-
-		// 	volumes.add(volumeTemp);
-		// }
+			volumes.add(volumeTemp);
+		}
 
 		return true;
 	}
@@ -93,7 +84,7 @@ class _ShowVolumesState extends State<ShowVolumes>
           							if (snapshot.hasError) print(snapshot.error);
 
 									return (snapshot.hasData)
-										? ListVolumes()
+										? ListVolumes(list: volumes)
 										: _progress();
 
 
