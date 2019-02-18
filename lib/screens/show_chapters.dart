@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 // Widgets
-import 'package:light_novel/widgets/ListVolumes.dart';
+import 'package:light_novel/widgets/ListChapters.dart';
 import 'package:light_novel/widgets/ProgressCustom.dart';
 
 
@@ -13,41 +13,45 @@ import 'package:light_novel/services/HttpHandler.dart';
 // Models
 import 'package:light_novel/models/LightNovel.dart';
 import 'package:light_novel/models/Volume.dart';
+import 'package:light_novel/models/Chapter.dart';
 
 
-class ShowVolumes extends StatefulWidget 
+class ShowChapters extends StatefulWidget 
 {
 	final LightNovel lightNovel;
+	final Volume volume;
 
-	ShowVolumes({ this.lightNovel });
+
+	ShowChapters({ this.lightNovel, this.volume });
 
 
 	@override
-	_ShowVolumesState createState() => _ShowVolumesState();
+	_ShowChaptersState createState() => _ShowChaptersState();
 }
 
 
-class _ShowVolumesState extends State<ShowVolumes> 
+class _ShowChaptersState extends State<ShowChapters> 
 {
+	String url() => '/light-novel/${widget.lightNovel.id}/${widget.volume.id}';
+	List<Chapter> chapters;
 
-	List<Volume> volumes;
-
-	getVolumes() async
+	getChapters() async
 	{
-		volumes = new List();
+		chapters = new List();
 
-		var response = await HttpHandler().getJson('/light-novel/${widget.lightNovel.id}');
+		var response = await HttpHandler().getJson(url());
 
 
-		for (var i = 0; i < response['data']['volumes'].length; i++) {
+		for (var i = 0; i < response['data']['volumes'][0]['chapters'].length; i++) {
 
-			Volume volumeTemp = Volume.fromJson(response['data']['volumes'][i]);
+			Chapter chapterTemp = Chapter.fromJson(response['data']['volumes'][0]['chapters'][i]);
 
-			volumes.add(volumeTemp);
+			chapters.add(chapterTemp);
 		}
 
 		return true;
 	}
+
 
 
 	@override
@@ -66,13 +70,13 @@ class _ShowVolumesState extends State<ShowVolumes>
 			body: Padding(
 				padding: EdgeInsets.symmetric(horizontal: 25),
 				child: FutureBuilder(
-					future: getVolumes(),
+					future: getChapters(),
 					builder: (context, snapshot)
 					{
 						if (snapshot.hasError) print(snapshot.error);
 
 						return (snapshot.hasData)
-							? ListVolumes(list: volumes, lightNovel: widget.lightNovel)
+							? ListChapters(chpaters: chapters, lightNovel: widget.lightNovel, volume: widget.volume,)
 							: ProgressCustom();
 					},
 				)

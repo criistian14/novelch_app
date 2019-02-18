@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Widgets
 import 'package:light_novel/widgets/ListItems.dart';
+import 'package:light_novel/widgets/ProgressCustom.dart';
 
 
 // Services
@@ -51,19 +52,6 @@ class _HomeState extends State<Home>
 		}
 
 		return true;
-	}
-
-
-	SizedBox _progress()
-	{
-		return SizedBox(
-			height: 500,
-			child: Center(
-				child: CircularProgressIndicator(
-					valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)
-				)
-			),
-		);
 	}
 
 
@@ -121,7 +109,7 @@ class _HomeState extends State<Home>
 
 									return (snapshot.hasData)
 										? ListItems(list: lightNovels)
-										: _progress();
+										: ProgressCustom();
 
 
 								},

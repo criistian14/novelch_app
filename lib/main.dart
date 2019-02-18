@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 
+// Services
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 // Screens
 import 'package:light_novel/screens/home.dart';
 import 'package:light_novel/screens/categories.dart';
 import 'package:light_novel/screens/search.dart';
 import 'package:light_novel/screens/account.dart';
+import 'package:light_novel/screens/read_chapter.dart';
 
 
 
@@ -24,6 +29,9 @@ class _MyAppState extends State<MyApp>
 		Search().tag: (BuildContext context) => Search(),
 		Account().tag: (BuildContext context) => Account()
 	};
+
+	
+	final _scaffoldKey = GlobalKey<ScaffoldState>();
 
 	
 
@@ -78,6 +86,33 @@ class _MyAppState extends State<MyApp>
 
 
 
+	void _continueReading() async
+	{
+		final prefs = await SharedPreferences.getInstance();
+
+		String urlChapter = prefs.getString('url');
+
+
+		if (urlChapter != null) {
+
+			Navigator.of(_scaffoldKey.currentContext).push(MaterialPageRoute(
+				builder: (context) => ReadChapter(
+					url: urlChapter,
+				)
+			));
+			
+
+		} else {
+
+			_scaffoldKey.currentState.showSnackBar(SnackBar(
+				duration: Duration(seconds: 3),
+				content: Text('No tienes nada guardado'),
+				backgroundColor: Colors.red[400],
+			));
+
+		}
+	}
+
 
 	@override
 	Widget build(BuildContext context) 
@@ -86,9 +121,10 @@ class _MyAppState extends State<MyApp>
 			debugShowCheckedModeBanner: false,
 			routes: routes,
 			home: Scaffold(
+				key: _scaffoldKey,
 				body: _pages.elementAt(_selectedIndex),
 				floatingActionButton: FloatingActionButton(
-					onPressed: () {},
+					onPressed: _continueReading,
 					backgroundColor: Theme.of(context).primaryColor,
 					tooltip: 'Continue Reading',
 					child: Icon(Icons.import_contacts, color: Colors.white, size: 30),

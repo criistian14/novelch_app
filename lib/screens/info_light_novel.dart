@@ -48,11 +48,11 @@ class _InfoLightNovelState extends State<InfoLightNovel>
 
 	void _onPressSeeVolumes()
 	{
-		Navigator.of(context).push(
-			MaterialPageRoute(
-				builder: (BuildContext context) => ShowVolumes(lightNovel: widget.lightNovel,)
+		Navigator.of(context).push(MaterialPageRoute(
+			builder: (BuildContext context) => ShowVolumes(
+				lightNovel: widget.lightNovel,
 			)
-		);
+		));
 	}
 
 

@@ -9,12 +9,6 @@ import 'package:light_novel/screens/info_light_novel.dart';
 import 'package:light_novel/models/LightNovel.dart';
 
 
-// id: id,
-// 				name: name, 
-// 				author: author,
-// 				description: description, 
-// 				thumbnail: thumbnail
-
 
 class Item extends StatefulWidget 
 {
@@ -29,7 +23,7 @@ class Item extends StatefulWidget
 
 class _ItemState extends State<Item> 
 {
-
+ 
 	void _showInfo()
 	{
 		Navigator.of(context).push(MaterialPageRoute(

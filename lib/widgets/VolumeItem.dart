@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 
 
+// Screen
+import 'package:light_novel/screens/show_chapters.dart';
+
+
+
 // Models
 import 'package:light_novel/models/Volume.dart';
+import 'package:light_novel/models/LightNovel.dart';
+
 
 
 class VolumeItem extends StatefulWidget 
 {
+	final LightNovel lightNovel;
 	final Volume volume;
-
-	VolumeItem({ this.volume });
+ 
+	VolumeItem({ this.lightNovel, this.volume });
 
 	@override
 	_VolumeItemState createState() => _VolumeItemState();
@@ -20,7 +28,12 @@ class _VolumeItemState extends State<VolumeItem>
 {
 	void _showChapters()
 	{
-		
+		Navigator.of(context).push(MaterialPageRoute(
+			builder: (context) => ShowChapters(
+				lightNovel: widget.lightNovel,
+				volume: widget.volume,
+			)
+		));
 	}
 
 

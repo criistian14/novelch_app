@@ -5,13 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:light_novel/widgets/VolumeItem.dart';
 
 
+// Models
+import 'package:light_novel/models/LightNovel.dart';
 
 
 class ListVolumes extends StatefulWidget 
 {
+	final LightNovel lightNovel;
 	final List list;
 
-	ListVolumes({ this.list });
+	ListVolumes({ this.list, this.lightNovel });
 
 
 	@override
@@ -38,6 +41,7 @@ class _ListVolumesState extends State<ListVolumes>
 					),
 					itemBuilder: (BuildContext context, int index) => VolumeItem(
 						volume: widget.list[index],
+						lightNovel: widget.lightNovel,
 					),
 				);
 			}
