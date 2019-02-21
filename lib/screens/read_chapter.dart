@@ -36,11 +36,59 @@ class ReadChapter extends StatefulWidget
 
 class _ReadChapterState extends State<ReadChapter> 
 {
-	ScrollController _scrollController = ScrollController(initialScrollOffset: 0);
+	ScrollController _scrollController;
 	Chapter _chapter;
-	String _name = '';
+	String _name;
+	double _position;
+	SharedPreferences prefs;
+	bool isChange;
+
+
+	@override
+	void initState() 
+	{ 
+	 	super.initState();
+
+		_name = '';
+	  	_position = 0;
+		isChange = false;
+		_scrollController = ScrollController(initialScrollOffset: 0);
+
+		_loadData();
+	}
+
+
+
+
+	@override
+	void dispose() 
+	{ 
+		prefs.setDouble('position', _position);
+
+		super.dispose();
+	}
 
 	
+	_loadData() async
+	{
+		prefs = await SharedPreferences.getInstance();
+
+		prefs.setString('url', url());
+
+
+		setState(() {
+			_position = prefs.getDouble('position');	
+		});
+
+
+		_scrollController.addListener(() {			
+			_position = _scrollController.offset;
+		});
+	}
+
+
+
+
 
 	String url()
 	{
@@ -53,6 +101,8 @@ class _ReadChapterState extends State<ReadChapter>
 		}
 
 	}
+
+
 
 
 	_getBody() async
@@ -68,32 +118,25 @@ class _ReadChapterState extends State<ReadChapter>
 			});
 		}
 
-	
-		final prefs = await SharedPreferences.getInstance();
+
+		if (!isChange) {
+			_scrollController.animateTo(
+				_position, 
+				duration: Duration(seconds: 1), 
+				curve: Curves.easeIn
+			);
+
+			setState(() {
+				isChange = true;
+			});
+		}
 
 
-		prefs.setString('url', url());
-
-		
-		_scrollController.animateTo(
-			prefs.getDouble('position') ?? 0, 
-			duration: Duration(seconds: 1), 
-			curve: Curves.easeIn
-		);
 
 		return true;
 	}
 
-	
-	bool _savePosition(ScrollNotification scrollInfo)
-	{
-		SharedPreferences.getInstance()
-			.then((prefs) {
-				prefs.setDouble('position', scrollInfo.metrics.pixels);
-			});
 
-		return false;
-	}
 
 
 	String _getName()
@@ -126,43 +169,40 @@ class _ReadChapterState extends State<ReadChapter>
 	Widget build(BuildContext context) 
 	{
 		return Scaffold(
-			body: NotificationListener<ScrollNotification>(
-				onNotification: _savePosition,
-				child: CustomScrollView(
-					controller: _scrollController,
-					slivers: <Widget>[
-						SliverAppBar(
-							expandedHeight: 60,
-							floating: true,
-							title: Text(_getName(), style: TextStyle(
-								color: Colors.white
-							)),
-							leading: GestureDetector(
-								onTap: () => Navigator.of(context).pop(),
-								child: Icon(Icons.chevron_left, color: Colors.white, size: 30),
-							),
+			body: CustomScrollView(
+				controller: _scrollController,
+				slivers: <Widget>[
+					SliverAppBar(
+						expandedHeight: 60,
+						floating: true,
+						title: Text(_getName(), style: TextStyle(
+							color: Colors.white
+						)),
+						leading: GestureDetector(
+							onTap: () => Navigator.of(context).pop(),
+							child: Icon(Icons.chevron_left, color: Colors.white, size: 30),
 						),
+					),
 
 
-						SliverList(
-							delegate: SliverChildListDelegate([
-								FutureBuilder(
-									future: _getBody(),
-									builder: (context, snapshot)
-									{
-										if (snapshot.hasError) print(snapshot.error);
+					SliverList(
+						delegate: SliverChildListDelegate([
+							FutureBuilder(
+								future: _getBody(),
+								builder: (context, snapshot)
+								{
+									if (snapshot.hasError) print(snapshot.error);
 
-										return (snapshot.hasData)
-											? _body()
-											: ProgressCustom();
-									},
-								),
-							]),
-						)
-						
-					],
-				),
-			)
+									return (snapshot.hasData)
+										? _body()
+										: ProgressCustom();
+								},
+							),
+						]),
+					)
+					
+				],
+			),
 		);
 	}
 }
