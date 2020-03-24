@@ -1,4 +1,4 @@
-# Read Light Novel
+# NovelCH
 
 Aplicacion para leer novelas ligeras hecha con [Flutter](https://flutter.io/).
 
@@ -16,20 +16,6 @@ Aplicacion para leer novelas ligeras hecha con [Flutter](https://flutter.io/).
 </div>
 
 
-## Backend
+## Backend (Golang)
 
-[Ir al repositorio](https://github.com/criistian14/read-light-novel)
-
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+[Ir al repositorio](https://github.com/criistian14/novelch_api)
